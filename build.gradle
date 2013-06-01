@@ -3,12 +3,31 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.4.1'
+        classpath 'com.android.tools.build:gradle:0.4.2'
     }
 }
+
 apply plugin: 'android-library'
+apply plugin: 'maven-publish'
+
+version '0.2'
+group 'org.flexlabs'
 
 android {
     compileSdkVersion 17
-    buildToolsVersion "17.0.0"
+    buildToolsVersion '17.0.0'
+
+    defaultConfig {
+        versionCode 2
+        versionName '0.2'
+    }
+}
+
+android.libraryVariants
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact bundleRelease
+        }
+    }
 }

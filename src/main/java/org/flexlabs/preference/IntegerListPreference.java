@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Artiom Chilaru (http://flexlabs.org)
+ * Copyright 2013 Artiom Chilaru (http://flexlabs.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import org.flexlabs.AndroidExtensions.R;
 
 public class IntegerListPreference extends DialogPreference {
+    private static final String androidNs = "http://schemas.android.com/apk/res/android";
+
     private CharSequence[] mEntries;
     private int[] mEntryValues;
     private int mValue;
@@ -36,17 +37,19 @@ public class IntegerListPreference extends DialogPreference {
     public IntegerListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IntListPreference, 0, 0);
-        mEntries = a.getTextArray(R.styleable.IntListPreference_entries);
-
-        int valuesResId = a.getResourceId(R.styleable.IntListPreference_entryValues, 0);
-        if (valuesResId == 0) {
-            throw new IllegalArgumentException("IntegerListPreference: error - valueList is not specified");
+        int entriesResId = attrs.getAttributeResourceValue(androidNs, "entries", 0);
+        int valuesResId = attrs.getAttributeResourceValue(androidNs, "entryValues", 0);
+        if (entriesResId == 0) {
+            throw new IllegalArgumentException("IntegerListPreference: error - entries is not specified");
         }
-        mEntryValues = a.getResources().getIntArray(valuesResId);
+        if (valuesResId == 0) {
+            throw new IllegalArgumentException("IntegerListPreference: error - entryValues is not specified");
+        }
 
-        mSummary = a.getString(R.styleable.IntListPreference_summary);
-        a.recycle();
+        mEntries = context.getResources().getStringArray(entriesResId);
+        mEntryValues = context.getResources().getIntArray(valuesResId);
+
+        mSummary = attrs.getAttributeValue(androidNs, "summary");
     }
 
     public IntegerListPreference(Context context) {
@@ -321,5 +324,4 @@ public class IntegerListPreference extends DialogPreference {
                     }
                 };
     }
-
 }
