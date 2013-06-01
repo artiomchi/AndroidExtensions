@@ -1,1 +1,3 @@
-rootProject.name = 'androidextensions'
+include ':AndroidExtensions', ':AndroidExtensions-Sherlock'
+project(':AndroidExtensions').name = 'androidextensions'
+project(':AndroidExtensions-Sherlock').name = 'androidextensions-sherlock'

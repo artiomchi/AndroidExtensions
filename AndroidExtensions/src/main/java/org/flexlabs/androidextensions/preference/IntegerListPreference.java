@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.flexlabs.preference;
+package org.flexlabs.androidextensions.preference;
 
 import android.app.AlertDialog.Builder;
 import android.content.Context;

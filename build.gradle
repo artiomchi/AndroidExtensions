@@ -7,27 +7,11 @@ buildscript {
     }
 }
 
-apply plugin: 'android-library'
-apply plugin: 'maven-publish'
-
-version '0.2'
-group 'org.flexlabs'
-
-android {
-    compileSdkVersion 17
-    buildToolsVersion '17.0.0'
-
-    defaultConfig {
-        versionCode 2
-        versionName '0.2'
+allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
     }
-}
 
-android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifact bundleRelease
-        }
-    }
+	group 'org.flexlabs'
 }

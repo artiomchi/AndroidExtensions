@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.flexlabs.preference;
+package org.flexlabs.androidextensions.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -24,7 +24,7 @@ import android.preference.DialogPreference;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.flexlabs.AndroidExtensions.R;
+import org.flexlabs.androidextensions.R;
 
 public class SeekBarPreference extends DialogPreference implements SeekBar.OnSeekBarChangeListener {
     private static final String androidNs = "http://schemas.android.com/apk/res/android";
