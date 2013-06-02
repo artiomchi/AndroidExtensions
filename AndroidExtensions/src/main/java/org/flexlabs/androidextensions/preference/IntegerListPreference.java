@@ -49,7 +49,12 @@ public class IntegerListPreference extends DialogPreference {
         mEntries = context.getResources().getStringArray(entriesResId);
         mEntryValues = context.getResources().getIntArray(valuesResId);
 
-        mSummary = attrs.getAttributeValue(androidNs, "summary");
+        int summaryResId = attrs.getAttributeResourceValue(androidNs, "summary", 0);
+        if (summaryResId != 0) {
+            mSummary = context.getString(summaryResId);
+        } else {
+            mSummary = attrs.getAttributeValue(androidNs, "summary");
+        }
     }
 
     public IntegerListPreference(Context context) {
