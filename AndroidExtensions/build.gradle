@@ -1,15 +1,19 @@
 apply plugin: 'android-library'
 apply plugin: 'maven-publish'
 
-version '0.2'
+dependencies {
+    compile('com.android.support:support-v4:13.0.0')
+}
+
+version '0.3'
 
 android {
     compileSdkVersion 17
     buildToolsVersion '17.0.0'
 
     defaultConfig {
-        versionCode 2
-        versionName '0.2'
+        versionCode 3
+        versionName '0.3'
     }
 }
 

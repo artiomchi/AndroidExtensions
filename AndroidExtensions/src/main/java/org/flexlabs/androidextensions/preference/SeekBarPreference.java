@@ -28,16 +28,18 @@ import org.flexlabs.androidextensions.R;
 
 public class SeekBarPreference extends DialogPreference implements SeekBar.OnSeekBarChangeListener {
     private static final String androidNs = "http://schemas.android.com/apk/res/android";
+    private static final String flexlabsNs = "http://schemas.android.com/apk/lib/org.flexlabs.androidextensions";
 
     private TextView mValueText;
     private String mSummary;
-    private int mDefault, mMin = 6, mMax, mValue = 0;
+    private int mDefault, mMin, mMax, mValue = 0;
 
     public SeekBarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setDialogLayoutResource(R.layout.seekbar_dialog);
 
         mDefault = attrs.getAttributeIntValue(androidNs, "defaultValue", 0);
+        mMin = attrs.getAttributeIntValue(flexlabsNs, "min", 1);
         mMax = attrs.getAttributeIntValue(androidNs, "max", 100);
         mSummary = attrs.getAttributeValue(androidNs, "summary");
     }

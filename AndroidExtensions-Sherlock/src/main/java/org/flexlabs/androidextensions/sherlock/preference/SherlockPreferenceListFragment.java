@@ -25,7 +25,6 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ import org.flexlabs.androidextensions.sherlock.R;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-public class PreferenceListFragment extends SherlockListFragment {
+public class SherlockPreferenceListFragment extends SherlockListFragment {
 
     private PreferenceManager mPreferenceManager;
 
@@ -61,11 +60,11 @@ public class PreferenceListFragment extends SherlockListFragment {
     private ListView lv;
     private int xmlId;
 
-    public PreferenceListFragment(int xmlId){
+    public SherlockPreferenceListFragment(int xmlId){
         this.xmlId = xmlId;
     }
     //must be provided
-    public PreferenceListFragment(){
+    public SherlockPreferenceListFragment(){
 
     }
 
