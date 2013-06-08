@@ -1,5 +1,6 @@
 apply plugin: 'android-library'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 dependencies {
     compile('com.android.support:support-v4:13.0.0')
@@ -19,10 +20,37 @@ android {
 }
 
 android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifact bundleRelease
+
+artifacts {
+    archives bundleRelease
+}
+
+signing {
+    sign configurations.archives
+}
+
+rootProject.initport()
+uploadArchives {
+    repositories {
+        if (rootProject.isDevBuild) {
+            mavenDeployer {
+                repository(url: "file://D:/Profile/.m2/repository")
+            }
+        } else {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: rootProject.sonatypeRepositoryUrl) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+
+                pom.project {
+                    name 'Android Extensions - Sherlock'
+                    description 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes. This library provides ActionBarSherlock dependant classes'
+                    url 'https://github.com/artiomchi/AndroidExtensions'
+                }
+                rootProject.populatePom(pom)
+            }
         }
     }
 }

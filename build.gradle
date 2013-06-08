@@ -14,4 +14,50 @@ allprojects {
     }
 
 	group 'org.flexlabs'
+
+    rootProject.ext.initport = {
+        rootProject.ext.isDevBuild = false
+        rootProject.ext.isReleaseBuild = false
+        rootProject.ext.sonatypeRepositoryUrl = ''
+
+        if(project.hasProperty("release")) {
+            println 'release'
+            rootProject.ext.isReleaseBuild = true
+            rootProject.ext.sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        } else if (project.hasProperty("ci")) {
+            println 'ci'
+            rootProject.ext.isCiBuild = true
+            rootProject.ext.version += "-SNAPSHOT"
+            rootProject.ext.sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+        } else {
+            println 'debug'
+            rootProject.ext.isDevBuild = true
+        }
+    }
+
+    rootProject.ext.populatePom = { pom ->
+        def scmUrl = 'scm:git@github.com:artiomchi/AndroidExtensions.git'
+        pom.project {
+            scm {
+                url scmUrl
+                connection scmUrl
+                developerConnection scmUrl
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'artiomchi'
+                    name 'Artiom Chilaru'
+                }
+            }
+        }
+    }
 }

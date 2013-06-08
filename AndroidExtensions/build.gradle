@@ -1,5 +1,5 @@
 apply plugin: 'android-library'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
 apply plugin: 'signing'
 
 dependencies {
@@ -19,40 +19,36 @@ android {
 }
 
 android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-            artifact bundleRelease
 
-            pom.withXml {
-                def node = asNode();
-                node.appendNode 'name', 'Android Extensions'
-                node.appendNode 'description', 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes'
-                node.appendNode 'url', 'https://github.com/artiomchi/AndroidExtensions'
+artifacts {
+    archives bundleRelease
+}
 
-                def builder = new NodeBuilder()
+signing {
+    sign configurations.archives
+}
 
-                def scmUrl = 'scm:git@github.com:artiomchi/AndroidExtensions.git'
-                node.append builder.scm {
-                    url scmUrl
-                    connection scmUrl
-                    developerConnection scmUrl
+rootProject.initport()
+uploadArchives {
+    repositories {
+        if (rootProject.isDevBuild) {
+            mavenDeployer {
+                repository(url: "file://D:/Profile/.m2/repository")
+            }
+        } else {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: rootProject.sonatypeRepositoryUrl) {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
 
-                node.append builder.licenses {
-                    license('') {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
-                    }
+                pom.project {
+                    name 'Android Extensions'
+                    description 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes'
+                    url 'https://github.com/artiomchi/AndroidExtensions'
                 }
-
-                node.append builder.developers {
-                    developer('') {
-                        id 'artiomchi'
-                        name 'Artiom Chilaru'
-                    }
-                }
+                rootProject.populatePom(pom)
             }
         }
     }
