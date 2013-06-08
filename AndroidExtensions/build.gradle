@@ -1,5 +1,6 @@
 apply plugin: 'android-library'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 dependencies {
     compile('com.android.support:support-v4:13.0.0')
@@ -22,6 +23,37 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifact bundleRelease
+
+            pom.withXml {
+                def node = asNode();
+                node.appendNode 'name', 'Android Extensions'
+                node.appendNode 'description', 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes'
+                node.appendNode 'url', 'https://github.com/artiomchi/AndroidExtensions'
+
+                def builder = new NodeBuilder()
+
+                def scmUrl = 'scm:git@github.com:artiomchi/AndroidExtensions.git'
+                node.append builder.scm {
+                    url scmUrl
+                    connection scmUrl
+                    developerConnection scmUrl
+                }
+
+                node.append builder.licenses {
+                    license('') {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                node.append builder.developers {
+                    developer('') {
+                        id 'artiomchi'
+                        name 'Artiom Chilaru'
+                    }
+                }
+            }
         }
     }
 }
