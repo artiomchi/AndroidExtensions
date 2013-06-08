@@ -5,15 +5,15 @@ dependencies {
     compile('com.android.support:support-v4:13.0.0')
 }
 
-version '0.3.1'
+version '0.3.2'
 
 android {
     compileSdkVersion 17
     buildToolsVersion '17.0.0'
 
     defaultConfig {
-        versionCode 3
-        versionName '0.3.1'
+        versionCode 4
+        versionName '0.3.2'
     }
 }
 
