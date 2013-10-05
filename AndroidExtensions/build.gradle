@@ -9,8 +9,8 @@ dependencies {
 version '0.3.2'
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion '17.0.0'
+    compileSdkVersion 18
+    buildToolsVersion '18.1'
 
     defaultConfig {
         versionCode 4
@@ -18,37 +18,37 @@ android {
     }
 }
 
-android.libraryVariants
+afterEvaluate { project ->
+    artifacts {
+        archives bundleRelease
+    }
 
-artifacts {
-    archives bundleRelease
-}
+    signing {
+        sign configurations.archives
+    }
 
-signing {
-    sign configurations.archives
-}
-
-rootProject.initport()
-uploadArchives {
-    repositories {
-        if (rootProject.isDevBuild) {
-            mavenDeployer {
-                repository(url: "file://D:/Profile/.m2/repository")
-            }
-        } else {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: rootProject.sonatypeRepositoryUrl) {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+    rootProject.initport()
+    uploadArchives {
+        repositories {
+            if (rootProject.isDevBuild) {
+                mavenDeployer {
+                    repository(url: "file://D:/Profile/.m2/repository")
                 }
+            } else {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                pom.project {
-                    name 'Android Extensions'
-                    description 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes'
-                    url 'https://github.com/artiomchi/AndroidExtensions'
+                    repository(url: rootProject.sonatypeRepositoryUrl) {
+                        authentication(userName: sonatypeUsername, password: sonatypePassword)
+                    }
+
+                    pom.project {
+                        name 'Android Extensions'
+                        description 'A number of classes/widgets that provide additional functionality. I\'ve created them to either simplify my life, or fix some of the bugs that are present in the official classes'
+                        url 'https://github.com/artiomchi/AndroidExtensions'
+                    }
+                    rootProject.populatePom(pom)
                 }
-                rootProject.populatePom(pom)
             }
         }
     }
