@@ -2,6 +2,10 @@ apply plugin: 'android-library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+configurations {
+    all*.exclude group: 'com.google.android', module: 'support-v4'
+}
+
 dependencies {
     compile('com.android.support:support-v4:13.0.0')
     compile('com.actionbarsherlock:actionbarsherlock:4.4.0@aar')
